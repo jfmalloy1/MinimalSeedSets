@@ -1,4 +1,4 @@
-import Pkg
+using Pkg
 Pkg.activate("/Users/John/Lab/BioXP")
 
 #] add ProgressMeter
