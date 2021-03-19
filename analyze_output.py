@@ -9,8 +9,11 @@ import os
 """
 def analyze_json(fp):
     data = json.load(open(fp))
+    #Get metagenome id 
+    id = fp[9:19]
     #Return relevant data
-    return pd.Series({"Seed Size": len(data["stats"]["scope_compounds"]),
+    return pd.Series({"ID": id,
+        "Seed Size": len(data["stats"]["scope_compounds"]),
         "MSS Size": len(data["stats"]["scope_seeds"]),
         "MSS Compounds": data["stats"]["scope_seeds"]})
 
@@ -21,7 +24,7 @@ def main():
     # print(df)
 
     #Set up dataframe
-    df = pd.DataFrame(columns=["Seed Size", "MSS Size", "MSS Compounds"])
+    df = pd.DataFrame(columns=["ID", "Seed Size", "MSS Size", "MSS Compounds"])
     #Sorting by molecular weight results
     for dir in tqdm(os.listdir("output")):
         if dir.startswith("mw"):
