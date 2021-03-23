@@ -1,10 +1,5 @@
-import Pkg
-Pkg.activate("/Users/John/Lab/BioXP")
-
-#] add ProgressMeter
-
 using BioXP
-using ProgressMeter
+#using ProgressMeter
 using Random
 using JSON
 # using BenchmarkTools
