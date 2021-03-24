@@ -1,9 +1,18 @@
+using Distributed
+
+#Parallel setup
+addprocs(8)
+println("Num Processors ", nprocs())
+
+@everywhere begin
+using Pkg
+Pkg.activate(".")
 using BioXP
 #using ProgressMeter
 using Random
 using JSON
-# using BenchmarkTools
 
+    # using BenchmarkTools
 ## Master file from ecg (with dgs added from `add_dgs_to_master` .py files)
 rstructs_path = "../BioXP/test/data/master_from_redges-og-submission.json"
 
@@ -33,7 +42,7 @@ function MSS(f)
     # tids = tids
     # sid_sets = sid_sets
 
-    write_path = "output/mw"*f[4:13]*"/"
+    write_path = "output/Pmw"*f[4:13]*"/"
 
     if !ispath(joinpath(write_path))
         mkpath(joinpath(write_path))
@@ -46,15 +55,26 @@ function MSS(f)
         write_path=write_path)
 
 
-    formatbioxpoutput("output/mw"*f[4:13]*"/", "output/mw"*f[4:13]*"/")
+    formatbioxpoutput("output/Pmw"*f[4:13]*"/", "output/Pmw"*f[4:13]*"/")
+end
+end
+
+function parallel_wrapper(dirs)
+    for f in dirs
+        MSS(f)
+    end
 end
 
 println("Molecular Weight MSS")
-for f in readdir("data/MW")
-    MSS(f)
-end
 
-println("Universality MSS")
-for f in readdir("data/Universality")
-    MSS(f)
-end
+dirs = readdir("data/MW")
+pmap(MSS, dirs[1:9])
+
+# #for f in readdir("data/MW")
+# parallel_wrapper(dirs)
+
+#
+# println("Universality MSS")
+# for f in readdir("data/Universality")
+#     MSS(f)
+# end
