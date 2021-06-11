@@ -43,16 +43,15 @@ def main():
     #Set all columns visible
     pd.set_option('display.max_columns', None)
     #Read in random 100 metagenome sample
-    df = pd.read_csv("data/Rando_100sample.csv")
-    print(df["Unnamed: 0"])
-    # #Read in molecular weight and universality orders of KEGG
-    # KEGG_mw_df = sort_KEGG_cpds_mw("data/chiral_molweight_formula_labels.csv")
-    # KEGG_universal_df = sort_KEGG_cpds_universality("data/metagenome_occurance.csv")
-    #
-    # #Molecular weight sorting
-    # df.apply(lambda x: sort_mw(eval(x["compounds"]), KEGG_mw_df, x["Unnamed: 0"]), axis=1)
-    # #Universality sorting
-    # df.apply(lambda x: sort_universality(eval(x["compounds"]), KEGG_universal_df, x["Unnamed: 0"]), axis=1)
+    df = pd.read_csv("data/Metagenome_Elements.csv")
+    #Read in molecular weight and universality orders of KEGG
+    KEGG_mw_df = sort_KEGG_cpds_mw("data/chiral_molweight_formula_labels.csv")
+    KEGG_universal_df = sort_KEGG_cpds_universality("data/metagenome_occurance.csv")
+
+    #Molecular weight sorting
+    df.apply(lambda x: sort_mw(eval(x["compounds"]), KEGG_mw_df, x["Unnamed: 0"]), axis=1)
+    #Universality sorting
+    df.apply(lambda x: sort_universality(eval(x["compounds"]), KEGG_universal_df, x["Unnamed: 0"]), axis=1)
 
     #Testing
     # row1 = df.iloc[1]

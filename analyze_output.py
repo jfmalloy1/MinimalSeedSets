@@ -9,8 +9,8 @@ import os
 """
 def analyze_json(fp):
     data = json.load(open(fp))
-    #Get metagenome id 
-    id = fp[9:19]
+    #Get metagenome id, [9:19] for MW, [20:30]
+    id = fp[20:30]
     #Return relevant data
     return pd.Series({"ID": id,
         "Seed Size": len(data["stats"]["scope_compounds"]),
@@ -27,12 +27,12 @@ def main():
     df = pd.DataFrame(columns=["ID", "Seed Size", "MSS Size", "MSS Compounds"])
     #Sorting by molecular weight results
     for dir in tqdm(os.listdir("output")):
-        if dir.startswith("mw"):
+        if dir.startswith("Puniversality"):
             test_series = analyze_json("output/" + dir + "/output.json")
             df = df.append(test_series, ignore_index=True)
 
     print(df)
-    df.to_csv("output/MSSresults_mw.csv")
+    df.to_csv("output/MSSresults_universality.csv")
 
 if __name__ == "__main__":
     main()
